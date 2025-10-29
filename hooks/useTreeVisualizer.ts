@@ -50,6 +50,7 @@ export function useTreeVisualizer({
 
   const hasInitialized = useRef(false);
   const prevNodesLength = useRef(nodes.length);
+  const prevNodesRef = useRef<string>("");
 
   const hasNodesChanged = useCallback(
     (prevNodes: Node[]) => {
@@ -97,24 +98,44 @@ export function useTreeVisualizer({
     [nodes, selectedNodeId, hasNodesChanged, hasSelectionChanged]
   );
 
-  const updateEdges = useCallback(() => {
-    if (edges !== flowEdges) {
-      const updatedEdges = edges.map((edge) => ({
-        ...edge,
-        type: "smoothstep",
-        animated: true,
-      }));
-      setFlowEdges(updatedEdges);
+  const prevEdgesRef = useRef<string>("");
+
+  useEffect(() => {
+    const edgesKey =
+      edges.length === 0
+        ? ""
+        : edges.map((e) => `${e.id}-${e.source}-${e.target}`).join(",");
+
+    // Only update if edges actually changed
+    if (edgesKey !== prevEdgesRef.current) {
+      prevEdgesRef.current = edgesKey;
+      if (edges.length === 0) {
+        // Clear edges
+        setFlowEdges([]);
+      } else {
+        // Update edges
+        const updatedEdges = edges.map((edge) => ({
+          ...edge,
+          type: "smoothstep",
+          animated: true,
+        }));
+        setFlowEdges(updatedEdges);
+      }
     }
-  }, [edges, flowEdges, setFlowEdges]);
+  }, [edges, setFlowEdges]);
 
   useEffect(() => {
-    setFlowNodes(updateNodes);
-  }, [setFlowNodes, updateNodes]);
-
-  useEffect(() => {
-    updateEdges();
-  }, [updateEdges]);
+    const nodesKey = nodes.length === 0 ? "" : nodes.map((n) => n.id).join(",");
+    if (nodesKey !== prevNodesRef.current) {
+      prevNodesRef.current = nodesKey;
+      // If nodes are cleared, set empty array directly to avoid calling updateNodes with empty array
+      if (nodes.length === 0) {
+        setFlowNodes([]);
+      } else {
+        setFlowNodes(updateNodes);
+      }
+    }
+  }, [nodes, setFlowNodes, updateNodes]);
 
   return {
     flowNodes,
