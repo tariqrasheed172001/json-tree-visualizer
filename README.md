@@ -2,7 +2,9 @@
 
 An interactive web application for visualizing JSON data as a hierarchical tree structure. Built with Next.js, TypeScript, React Flow, and Tailwind CSS.
 
-## Features
+🌐 **Live Demo**: [https://json-tree-visualizer-jet.vercel.app/](https://json-tree-visualizer-jet.vercel.app/)
+
+## ✨ Features
 
 ### Core Features
 
@@ -14,6 +16,7 @@ An interactive web application for visualizing JSON data as a hierarchical tree 
   - **Orange**: Primitive values (strings, numbers, booleans, null)
 - **Advanced Search**: Search by JSON path (e.g., `user.name`, `items[0].value`) with highlighting and auto-pan
 - **Zoom & Pan Controls**: Built-in navigation controls with minimap
+- **Auto-fit View**: Automatically fits all nodes to viewport when data is loaded
 
 ### Additional Features
 
@@ -24,7 +27,7 @@ An interactive web application for visualizing JSON data as a hierarchical tree 
 - **Download JSON**: Export current JSON data as file
 - **Export Image**: Export tree visualization as PNG image
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -53,7 +56,7 @@ npm start
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Usage
+## 💡 Usage
 
 1. **Input JSON**: Paste or type JSON in the left panel text area
 2. **Visualize**: Click the "Visualize" button to generate the interactive tree
@@ -74,7 +77,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
    - Toggle dark/light mode
    - Clear all data
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 json-tree-visualizer/
@@ -83,6 +86,7 @@ json-tree-visualizer/
 │   ├── page.tsx            # Main application page
 │   └── globals.css          # Global styles and Tailwind configuration
 ├── components/
+│   ├── Button.tsx          # Reusable button component
 │   ├── Controls.tsx        # Control buttons (clear, copy, download, export)
 │   ├── CustomNode.tsx      # Custom node rendering component
 │   ├── JSONInput.tsx       # JSON input component with validation
@@ -106,7 +110,7 @@ json-tree-visualizer/
 └── public/                 # Static assets
 ```
 
-## Architecture
+## 🏗️ Architecture
 
 ### Separation of Concerns
 
@@ -129,13 +133,31 @@ Handles search functionality with path matching and result highlighting.
 
 #### `useTreeVisualizer`
 
-Manages ReactFlow node and edge state, handles updates, initialization, and selection changes.
+Manages ReactFlow node and edge state, handles updates, initialization, and selection changes. Preserves node positions when possible.
 
 #### `useImageExport`
 
 Handles image export functionality with viewport capture and fallback mechanisms.
 
-## Technologies
+### Key Components
+
+#### `Button`
+
+Reusable button component with multiple variants (primary, secondary, gradient, icon), sizes, loading states, and icon support.
+
+#### `JSONInput`
+
+Component for entering and validating JSON data with error display and action buttons.
+
+#### `TreeVisualizer`
+
+Main visualization component using React Flow. Handles node rendering, search highlighting, and auto-fit view functionality.
+
+#### `CustomNode`
+
+Custom node rendering with type-specific colors, icons, and value display.
+
+## 🛠️ Technologies
 
 - **Next.js 14**: React framework with App Router
 - **TypeScript**: Type-safe development
@@ -144,7 +166,7 @@ Handles image export functionality with viewport capture and fallback mechanisms
 - **Lucide React**: Modern icon library
 - **html-to-image**: Image export functionality
 
-## Development
+## 📦 Development
 
 ### Available Scripts
 
@@ -159,45 +181,80 @@ npm run lint     # Run ESLint
 
 - TypeScript for type safety
 - ESLint for code quality
-- Consistent formatting with Prettier
+- Consistent formatting
 - Component-based architecture
 - Custom hooks for reusable logic
+- JSDoc comments for documentation
 
-## Deployment
+## 🌐 Deployment
 
-### Vercel (Recommended)
+### Vercel (Currently Deployed)
 
-```bash
-npm run build
-vercel deploy
-```
+The application is deployed on Vercel:
+
+**Live URL**: [https://json-tree-visualizer-jet.vercel.app/](https://json-tree-visualizer-jet.vercel.app/)
+
+#### Deploy to Vercel
+
+1. Push your code to GitHub
+2. Go to [Vercel](https://vercel.com)
+3. Click "Import Project"
+4. Select your GitHub repository
+5. Vercel will automatically detect Next.js
+6. Click "Deploy"
 
 The application is configured for seamless Vercel deployment with optimized builds.
 
-### Other Platforms
+### Other Deployment Options
 
 The application can be deployed to any platform that supports Next.js:
 
-- Netlify
-- AWS Amplify
-- GitHub Pages (with static export)
-- Any Node.js hosting service
+- **Netlify**: Connect GitHub repo, build command: `npm run build`
+- **AWS Amplify**: Follow Next.js deployment guide
+- **GitHub Pages**: Requires static export configuration
+- **Any Node.js hosting service**: Configure to run `npm start`
 
-## Browser Support
+## ✅ Features Implementation Status
+
+### Core Features ✅
+
+- [x] JSON Input & Parsing with validation
+- [x] Tree Visualization using React Flow
+- [x] Node type differentiation (Objects/Arrays/Primitives)
+- [x] Search by JSON path
+- [x] Highlight matching nodes
+- [x] Auto-pan to matches
+- [x] Show match/no match messages
+- [x] Auto-fit view on initial load
+
+### Bonus Features ✅
+
+- [x] Dark/Light mode toggle
+- [x] Clear/Reset button
+- [x] Copy path feature
+- [x] Load sample data
+- [x] Download JSON
+- [x] Export image as PNG
+- [x] Zoom controls (built-in React Flow)
+- [x] Pan functionality (built-in React Flow)
+- [x] Minimap for navigation
+
+## 🌍 Browser Support
 
 - Chrome (latest)
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
 
-## Performance
+## ⚡ Performance
 
 - Optimized bundle size
 - Efficient rendering with React memo
-- Lazy loading where applicable
+- Proper memoization with useCallback
 - Smooth animations with CSS transitions
+- Automatic view fitting for better UX
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -205,14 +262,16 @@ The application can be deployed to any platform that supports Next.js:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
+## 📝 License
 
 MIT License - feel free to use this project for learning and development.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
 Built with modern web technologies focusing on user experience, performance, and maintainability.
 
 ---
 
 Made with ❤️ using Next.js, React Flow, and Tailwind CSS
+
+**Live Demo**: [https://json-tree-visualizer-jet.vercel.app/](https://json-tree-visualizer-jet.vercel.app/)

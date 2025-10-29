@@ -2,7 +2,7 @@
 
 /**
  * useImageExport Hook
- * 
+ *
  * Handles exporting the ReactFlow visualization as a PNG image.
  * Includes fallback mechanism if primary capture method fails.
  */

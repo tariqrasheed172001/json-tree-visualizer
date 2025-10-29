@@ -2,7 +2,7 @@
 
 /**
  * useTreeVisualizer Hook
- * 
+ *
  * Manages ReactFlow node and edge state, handles updates, initialization,
  * and selection changes. Keeps positions preserved when possible.
  */
