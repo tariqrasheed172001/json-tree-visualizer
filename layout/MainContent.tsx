@@ -30,6 +30,7 @@ export default function MainContent() {
         edges,
         error,
         isLoading,
+        isTyping,
         setJsonInput,
         visualizeJson,
         clearTree,
@@ -86,6 +87,7 @@ export default function MainContent() {
                     onLoadSample={loadSampleJson}
                     error={error}
                     isLoading={isLoading}
+                    isTyping={isTyping}
                 />
             </div>
 

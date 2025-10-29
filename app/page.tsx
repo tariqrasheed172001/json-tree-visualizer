@@ -3,6 +3,7 @@
 import MainContent from '@/layout/MainContent';
 import Footer from '@/layout/Footer';
 import Header from '@/layout/Header';
+import ScrollToFooter from '@/components/ScrollToFooter';
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <Header />
       <MainContent />
       <Footer />
+      <ScrollToFooter />
     </div>
   );
 }

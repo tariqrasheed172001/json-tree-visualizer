@@ -7,7 +7,7 @@
  * and action buttons for visualization and loading sample data.
  */
 
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useRef, useEffect } from 'react';
 import { Upload } from 'lucide-react';
 import { Button } from './Button';
 
@@ -18,6 +18,7 @@ interface JSONInputProps {
     onLoadSample?: () => void;
     error: string | null;
     isLoading: boolean;
+    isTyping?: boolean;
 }
 
 
@@ -43,10 +44,24 @@ const ErrorMessage = ({ message }: { message: string }) => (
  * @param onLoadSample - Optional handler for loading sample JSON
  * @param error - Error message to display if validation fails
  * @param isLoading - Loading state for visualization process
+ * @param isTyping - Whether sample data is being typed in
  */
-export function JSONInput({ value, onChange, onVisualize, onLoadSample, error, isLoading }: JSONInputProps) {
+export function JSONInput({ value, onChange, onVisualize, onLoadSample, error, isLoading, isTyping = false }: JSONInputProps) {
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+        // Auto-focus and scroll to bottom when typing starts
+        if (isTyping && textareaRef.current) {
+            textareaRef.current.focus();
+            textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
+        }
+    }, [value, isTyping]);
+
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        onChange(e.target.value);
+        // Don't allow changes while typing
+        if (!isTyping) {
+            onChange(e.target.value);
+        }
     };
 
     return (
@@ -71,13 +86,14 @@ export function JSONInput({ value, onChange, onVisualize, onLoadSample, error, i
                             gradientTo="to-pink-600"
                             gradientHoverFrom="hover:from-purple-700"
                             gradientHoverTo="hover:to-pink-700"
+                            disabled={isTyping || isLoading}
                         >
-                            Sample
+                            {isTyping ? 'Typing...' : 'Sample'}
                         </Button>
                     )}
                     <Button
                         onClick={onVisualize}
-                        disabled={!value.trim() || isLoading}
+                        disabled={!value.trim() || isLoading || isTyping}
                         isLoading={isLoading}
                         variant="gradient"
                         gradientFrom="from-blue-600"
@@ -92,10 +108,12 @@ export function JSONInput({ value, onChange, onVisualize, onLoadSample, error, i
             </div>
 
             <textarea
+                ref={textareaRef}
                 value={value}
                 onChange={handleChange}
+                readOnly={isTyping}
                 placeholder="Paste or type your JSON here...&#10;&#10;Example: {&#10;  &quot;name&quot;: &quot;value&quot;,&#10;  &quot;items&quot;: [1, 2, 3]&#10;}"
-                className="flex-1 p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-gray-100 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all duration-200 shadow-inner"
+                className={`flex-1 p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-gray-100 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all duration-200 shadow-inner ${isTyping ? 'cursor-wait' : ''}`}
             />
 
             {error && <ErrorMessage message={error} />}
