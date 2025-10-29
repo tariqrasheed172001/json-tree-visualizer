@@ -17,6 +17,27 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const stored = localStorage.getItem('theme');
+                  const html = document.documentElement;
+                  if (stored === 'dark') {
+                    html.classList.add('dark');
+                    html.setAttribute('data-theme', 'dark');
+                  } else {
+                    html.classList.remove('dark');
+                    html.setAttribute('data-theme', 'light');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        /> */}
+      </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider>
           {children}
